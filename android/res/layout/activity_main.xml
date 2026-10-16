@@ -50,6 +50,75 @@
             </LinearLayout>
         </LinearLayout>
 
+        <!-- Shown only after a crash, so the user can send the error -->
+        <LinearLayout android:id="@+id/crashCard" style="@style/Card" android:visibility="gone">
+            <TextView style="@style/CardTitle" android:text="The app crashed last time" android:textColor="#DC2626" />
+            <TextView
+                style="@style/Hint"
+                android:text="Please send a screenshot of this, or tap Copy error and send it." />
+            <TextView
+                android:id="@+id/crashText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/bg_input"
+                android:maxLines="14"
+                android:padding="12dp"
+                android:textColor="@color/ink"
+                android:textIsSelectable="true"
+                android:textSize="11sp"
+                android:typeface="monospace" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:gravity="end">
+                <Button android:id="@+id/crashDismiss" style="@style/SecondaryButton" android:text="Dismiss" />
+                <Button
+                    android:id="@+id/crashCopy"
+                    style="@style/SecondaryButton"
+                    android:layout_marginStart="10dp"
+                    android:text="Copy error" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <!-- 1-tap fix through Gboard's globe key -->
+        <LinearLayout style="@style/Card">
+            <TextView style="@style/CardTitle" android:text="1-tap Fix on Gboard" />
+            <TextView
+                style="@style/Hint"
+                android:text="Type in Gboard like normal, then tap the 🌐 globe key. Your text gets fixed and Gboard comes back by itself." />
+            <TextView
+                android:id="@+id/quickStatus"
+                style="@style/Hint"
+                android:layout_marginTop="12dp"
+                android:textSize="15sp"
+                android:textStyle="bold" />
+            <Button
+                android:id="@+id/quickEnable"
+                style="@style/PrimaryButton"
+                android:text="1.  Turn on 1-tap Fix" />
+            <TextView
+                style="@style/Hint"
+                android:layout_marginTop="12dp"
+                android:lineSpacingExtra="4dp"
+                android:textColor="@color/ink"
+                android:text="2.  Show the globe key in Gboard: open Gboard settings, Preferences, turn on Show language switch key.\n3.  Done. Type, tap 🌐, fixed.\n\nNo globe key? Long-press the space bar and pick Grammar Fixer.\nIf you use Bangla in Gboard too, the globe may go to Bangla first. Tap it once more." />
+            <TextView
+                style="@style/Hint"
+                android:layout_marginTop="12dp"
+                android:text="Safe: it only sees the text box you are in, and only while fixing. It can\'t see your screen or press any buttons. Android shows its usual keyboard warning when you turn it on." />
+        </LinearLayout>
+
+        <!-- Fallback: the text selection menu -->
+        <LinearLayout style="@style/Card">
+            <TextView style="@style/CardTitle" android:text="Other way" />
+            <TextView
+                style="@style/Hint"
+                android:layout_marginTop="8dp"
+                android:text="Select the text, tap the 3 dots, then Fix grammar. Or share any text to Grammar Fixer." />
+        </LinearLayout>
+
         <!-- API key -->
         <LinearLayout style="@style/Card">
             <TextView style="@style/CardTitle" android:text="Groq API key" />
@@ -133,18 +202,6 @@
                     android:layout_marginStart="10dp"
                     android:text="Copy" />
             </LinearLayout>
-        </LinearLayout>
-
-        <!-- How to use -->
-        <LinearLayout style="@style/Card">
-            <TextView style="@style/CardTitle" android:text="Use it in any app" />
-            <TextView
-                style="@style/Hint"
-                android:layout_marginTop="10dp"
-                android:lineSpacingExtra="6dp"
-                android:text="1.  Type your message in WhatsApp, Messenger, Gmail or any app.\n2.  Long-press and select the text.\n3.  Tap the 3 dots (or More) and choose Fix grammar.\n4.  Your text gets replaced with the fixed version.\n\nYou can also share any text to Grammar Fixer."
-                android:textColor="@color/ink"
-                android:textSize="15sp" />
         </LinearLayout>
     </LinearLayout>
 </ScrollView>

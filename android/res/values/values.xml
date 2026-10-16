@@ -2,7 +2,8 @@
 <resources>
     <string name="app_name">Grammar Fixer</string>
     <string name="fix_label">Fix grammar</string>
-
+    <string name="quick_label">Grammar Fixer (1-tap Fix)</string>
+    <string name="quick_subtype">Fix</string>
     <color name="accent">#6366F1</color>
     <color name="accent_dark">#4F46E5</color>
     <color name="violet">#A855F7</color>

@@ -12,6 +12,8 @@ function Run($exe) { & $exe @args; if ($LASTEXITCODE) { throw "$exe failed" } }
 Remove-Item -Recurse -Force build -ErrorAction SilentlyContinue
 New-Item -ItemType Directory build\gen, build\obj, build\dex | Out-Null
 
+$out = '..\GrammarFixer.apk'
+
 Run "$bt\aapt2.exe" compile --dir res -o build\res.zip
 Run "$bt\aapt2.exe" link -o build\res.apk -I $jar --manifest AndroidManifest.xml --java build\gen `
   --min-sdk-version 23 --target-sdk-version 34 build\res.zip
@@ -32,6 +34,6 @@ if (-not (Test-Path grammarfixer.keystore)) {
   Run keytool -genkeypair -keystore grammarfixer.keystore -alias grammarfixer -keyalg RSA -keysize 2048 -validity 10000 `
     -storepass $pw -keypass $pw -dname 'CN=Grammar Fixer' -storetype PKCS12
 }
-Run "$bt\apksigner.bat" sign --ks grammarfixer.keystore --ks-pass "pass:$pw" --out ..\GrammarFixer.apk build\app.aligned.apk
-Run "$bt\apksigner.bat" verify ..\GrammarFixer.apk
-Write-Host 'Built GrammarFixer.apk'
+Run "$bt\apksigner.bat" sign --ks grammarfixer.keystore --ks-pass "pass:$pw" --out $out build\app.aligned.apk
+Run "$bt\apksigner.bat" verify $out
+Write-Host "Built $out"

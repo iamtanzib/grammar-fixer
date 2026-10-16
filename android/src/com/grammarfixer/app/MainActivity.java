@@ -8,7 +8,12 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.Settings;
+import android.os.Build;
 import android.view.View;
+import android.view.WindowInsets;
+import android.view.inputmethod.InputMethodInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -68,6 +73,43 @@ public class MainActivity extends Activity {
         fix.setOnClickListener(v -> runFix());
         findViewById(R.id.copy).setOnClickListener(v -> copy(this, result.getText()));
         findViewById(R.id.share).setOnClickListener(v -> share(this, result.getText()));
+        findViewById(R.id.quickEnable).setOnClickListener(v ->
+            startActivity(new Intent(Settings.ACTION_INPUT_METHOD_SETTINGS)));
+
+        // Remember the normal keyboard's height so the 1-tap Fix panel can match it (no jump when it swaps in).
+        if (Build.VERSION.SDK_INT >= 30) {
+            getWindow().getDecorView().setOnApplyWindowInsetsListener((v, insets) -> {
+                int ime = insets.getInsets(WindowInsets.Type.ime()).bottom;
+                int nav = insets.getInsets(WindowInsets.Type.navigationBars()).bottom;
+                if (ime - nav > getResources().getDisplayMetrics().density * 150)
+                    prefs.edit().putInt("kbHeight", ime - nav).apply();
+                return v.onApplyWindowInsets(insets);
+            });
+        }
+
+        final String crash = prefs.getString("crash", null);
+        if (crash != null) {
+            findViewById(R.id.crashCard).setVisibility(View.VISIBLE);
+            ((TextView) findViewById(R.id.crashText)).setText(crash);
+            findViewById(R.id.crashCopy).setOnClickListener(v -> copy(this, crash));
+            findViewById(R.id.crashDismiss).setOnClickListener(v -> {
+                prefs.edit().remove("crash").apply();
+                findViewById(R.id.crashCard).setVisibility(View.GONE);
+            });
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        // Settings.Secure.ENABLED_INPUT_METHODS throws for targetSdk 34+, so ask InputMethodManager instead.
+        boolean on = false;
+        for (InputMethodInfo im : ((InputMethodManager) getSystemService(INPUT_METHOD_SERVICE)).getEnabledInputMethodList())
+            if (im.getPackageName().equals(getPackageName())) on = true;
+        TextView st = findViewById(R.id.quickStatus);
+        st.setText(on ? "\u2713  1-tap Fix is ON" : "1-tap Fix is OFF");
+        st.setTextColor(on ? GOOD : BAD);
+        findViewById(R.id.quickEnable).setVisibility(on ? View.GONE : View.VISIBLE);
     }
 
     void setStatus(String t, int color) { status.setText(t); status.setTextColor(color); }

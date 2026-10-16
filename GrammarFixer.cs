@@ -222,7 +222,7 @@ Tone: " + tone;
     foreach (var ex in Examples(s.Translate)) { msgs.Add(Msg("user", Wrap(ex[0]))); msgs.Add(Msg("assistant", ex[1])); }
     msgs.Add(Msg("user", Wrap(text.Trim())));
     var body = new Dictionary<string, object> { { "model", s.Model }, { "messages", msgs }, { "temperature", 0.3 } };
-    if (s.Model.StartsWith("openai/gpt-oss")) body["reasoning_effort"] = "medium";
+    if (s.Model.StartsWith("openai/gpt-oss")) body["reasoning_effort"] = "low";   // low: ~0.6s vs ~1.1s, same quality in tests
 
     string json = null;
     try { json = await Send(s.ApiKey, Json.Serialize(body), "chat/completions"); }

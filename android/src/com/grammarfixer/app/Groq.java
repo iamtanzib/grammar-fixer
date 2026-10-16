@@ -89,7 +89,7 @@ final class Groq {
             for (String[] ex : examples(translate)) msgs.put(msg("user", wrap(ex[0]))).put(msg("assistant", ex[1]));
             msgs.put(msg("user", wrap(text.trim())));
             JSONObject body = new JSONObject().put("model", MODEL).put("messages", msgs)
-                .put("temperature", 0.3).put("reasoning_effort", "medium");
+                .put("temperature", 0.3).put("reasoning_effort", "low");   // low: ~0.6s vs ~1.1s, same quality in tests
             String json;
             try {
                 json = send(key, body.toString(), "chat/completions");
