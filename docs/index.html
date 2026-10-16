@@ -1,0 +1,206 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Grammar Fixer</title>
+<meta name="description" content="Turn messy English, Bangla or Banglish into clean, simple English. One hotkey on Windows, one tap on Android. Free and open source.">
+<meta property="og:title" content="Grammar Fixer">
+<meta property="og:description" content="Messy text in. Clean English out. Windows + Android. Free, open source.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%236366f1'/%3E%3Cpath d='M18 34l10 10 18-22' fill='none' stroke='white' stroke-width='7' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+<style>
+:root{--bg:#0b0b14;--surface:#151525;--line:#26263f;--text:#eef0ff;--muted:#9a9cc0;--a:#6366f1;--b:#a855f7;--good:#10b981}
+:root[data-theme=light]{--bg:#f7f7fd;--surface:#fff;--line:#e3e3f3;--text:#14142b;--muted:#5d5f86}
+@media(prefers-color-scheme:light){:root:not([data-theme=dark]){--bg:#f7f7fd;--surface:#fff;--line:#e3e3f3;--text:#14142b;--muted:#5d5f86}}
+*{box-sizing:border-box;margin:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font:16px/1.6 system-ui,-apple-system,"Segoe UI",Roboto,"Noto Sans Bengali",sans-serif;overflow-x:hidden}
+a{color:inherit;text-decoration:none}
+.wrap{max-width:1080px;margin:0 auto;padding:0 20px}
+.glow{position:fixed;inset:0;z-index:-1;background:radial-gradient(600px 400px at 15% -5%,#6366f133,transparent),radial-gradient(500px 400px at 90% 10%,#a855f72e,transparent)}
+nav{display:flex;align-items:center;justify-content:space-between;padding:18px 0}
+.brand{display:flex;align-items:center;gap:10px;font-weight:700}
+.logo{width:34px;height:34px;border-radius:10px;background:linear-gradient(135deg,var(--a),var(--b));display:grid;place-items:center}
+.logo svg{width:20px}
+nav .r{display:flex;gap:8px;align-items:center}
+.pill{border:1px solid var(--line);background:var(--surface);color:var(--text);border-radius:99px;padding:7px 14px;font:inherit;font-size:14px;cursor:pointer}
+.pill:hover{border-color:var(--a)}
+.hero{text-align:center;padding:56px 0 28px}
+.badge{display:inline-block;font-size:13px;color:var(--muted);border:1px solid var(--line);background:var(--surface);padding:5px 14px;border-radius:99px}
+h1{font-size:clamp(36px,7vw,68px);line-height:1.08;margin:20px 0 16px;letter-spacing:-.02em}
+.grad{background:linear-gradient(90deg,var(--a),var(--b));-webkit-background-clip:text;background-clip:text;color:transparent}
+.sub{max-width:620px;margin:0 auto;color:var(--muted);font-size:18px}
+.cta{display:flex;flex-wrap:wrap;gap:12px;justify-content:center;margin:30px 0 8px}
+.btn{display:inline-flex;align-items:center;gap:10px;padding:13px 22px;border-radius:14px;font-weight:600;border:1px solid var(--line);background:var(--surface);transition:.2s}
+.btn:hover{transform:translateY(-2px);border-color:var(--a)}
+.btn.p{background:linear-gradient(135deg,var(--a),var(--b));border:0;color:#fff;box-shadow:0 10px 30px #6366f155}
+.btn svg{width:20px;height:20px;fill:currentColor}
+.small{font-size:13px;color:var(--muted)}
+.demo{max-width:720px;margin:40px auto 0;background:var(--surface);border:1px solid var(--line);border-radius:20px;overflow:hidden;box-shadow:0 30px 80px #0005;text-align:left}
+.bar{display:flex;gap:7px;padding:12px 16px;border-bottom:1px solid var(--line)}
+.bar i{width:11px;height:11px;border-radius:50%;background:var(--line)}
+.demo .body{padding:22px;min-height:150px;font-size:18px}
+.lbl{font-size:12px;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);margin-bottom:6px}
+#dem{min-height:56px}
+.keys{display:flex;gap:6px;align-items:center;margin:14px 0;color:var(--muted);font-size:14px;flex-wrap:wrap}
+kbd{border:1px solid var(--line);border-bottom-width:3px;border-radius:7px;padding:2px 9px;background:var(--bg);color:var(--text);font:600 13px system-ui}
+.ok{color:var(--good)}
+.caret{display:inline-block;width:2px;height:1em;background:var(--a);vertical-align:-2px;animation:b 1s steps(2) infinite}
+@keyframes b{50%{opacity:0}}
+section{padding:72px 0}
+h2{font-size:clamp(28px,4.5vw,40px);text-align:center;letter-spacing:-.01em;margin-bottom:10px}
+.lead{text-align:center;color:var(--muted);max-width:560px;margin:0 auto 40px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:24px;transition:.2s}
+.card:hover{transform:translateY(-4px);border-color:#6366f188}
+.ic{font-size:26px;width:48px;height:48px;border-radius:14px;display:grid;place-items:center;background:linear-gradient(135deg,#6366f126,#a855f726);margin-bottom:14px}
+.card h3{font-size:18px;margin-bottom:6px}
+.card p{color:var(--muted);font-size:15px}
+.dl{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px}
+.dl .card{padding:30px}
+.dl h3{font-size:22px}
+.dl ul{margin:14px 0 22px 18px;color:var(--muted);font-size:15px}
+.steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px;counter-reset:s}
+.step{padding:24px;background:var(--surface);border:1px solid var(--line);border-radius:18px}
+.step:before{counter-increment:s;content:counter(s);display:grid;place-items:center;width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,var(--a),var(--b));color:#fff;font-weight:700;margin-bottom:12px}
+.step h3{margin-bottom:6px}
+.step p{color:var(--muted);font-size:15px}
+details{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:16px 20px;margin-bottom:10px}
+summary{cursor:pointer;font-weight:600}
+details p{color:var(--muted);margin-top:8px}
+code{background:var(--bg);border:1px solid var(--line);border-radius:6px;padding:1px 6px;font-size:14px}
+.u{text-decoration:underline}
+footer{border-top:1px solid var(--line);padding:32px 0 48px;text-align:center;color:var(--muted);font-size:14px}
+footer a{color:var(--text);text-decoration:underline}
+.fade{opacity:0;transform:translateY(18px);transition:.6s}
+.fade.in{opacity:1;transform:none}
+</style>
+</head>
+<body>
+<div class="glow"></div>
+<div class="wrap">
+<nav>
+  <a class="brand" href="#"><span class="logo"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg></span>Grammar Fixer</a>
+  <div class="r">
+    <a class="pill" href="https://github.com/iamtanzib/grammar-fixer" target="_blank" rel="noopener">GitHub</a>
+    <button class="pill" id="lang">বাংলা</button>
+    <button class="pill" id="theme" aria-label="Toggle theme">◐</button>
+  </div>
+</nav>
+
+<header class="hero">
+  <span class="badge" data-bn="ফ্রি · ওপেন সোর্স · Windows + Android">Free · Open source · Windows + Android</span>
+  <h1><span data-bn="এলোমেলো লেখা দিন।">Messy text in.</span><br><span class="grad" data-bn="পরিষ্কার ইংরেজি নিন।">Clean English out.</span></h1>
+  <p class="sub" data-bn="ইংরেজি, বাংলা বা বাংলিশে লিখুন। একটা শর্টকাট চাপুন, যেখানে লিখেছেন সেখানেই সহজ ও স্বাভাবিক ইংরেজি পেয়ে যান।">Write in English, Bangla or Banglish. Press one shortcut and get simple, natural English, right where you typed.</p>
+  <div class="cta">
+    <a class="btn p" href="https://github.com/iamtanzib/grammar-fixer/releases/latest/download/GrammarFixer.exe"><svg viewBox="0 0 24 24"><path d="M3 5.5l8-1.1v7.1H3zM12 4.3L21 3v8.5h-9zM3 12.5h8v7.1l-8-1.1zM12 12.5h9V21l-9-1.3z"/></svg><span data-bn="Windows এর জন্য ডাউনলোড">Download for Windows</span></a>
+    <a class="btn" href="https://github.com/iamtanzib/grammar-fixer/releases/latest/download/GrammarFixer.apk"><svg viewBox="0 0 24 24"><path d="M7 2h10a2 2 0 012 2v16a2 2 0 01-2 2H7a2 2 0 01-2-2V4a2 2 0 012-2zm0 3v13h10V5zm5 15.2a1 1 0 100-2 1 1 0 000 2z"/></svg><span data-bn="Android এর জন্য ডাউনলোড">Download for Android</span></a>
+  </div>
+  <p class="small" data-bn="একটা ফ্রি Groq API key লাগবে। ১ মিনিটের কাজ।">Needs a free Groq API key. Takes 1 minute.</p>
+
+  <div class="demo" aria-label="Demo">
+    <div class="bar"><i></i><i></i><i></i></div>
+    <div class="body">
+      <div class="lbl">Text box</div>
+      <div id="dem"><span id="typed"></span><span class="caret"></span></div>
+      <div class="keys"><kbd>Ctrl</kbd>+<kbd>Alt</kbd>+<kbd>G</kbd> <span id="state"></span></div>
+    </div>
+  </div>
+</header>
+</div>
+
+<section id="features"><div class="wrap">
+  <h2 data-bn="যা যা লাগবে সব আছে">Everything you need</h2>
+  <p class="lead" data-bn="ছোট, দ্রুত আর প্রাইভেট। অ্যাকাউন্ট নেই, সাবস্ক্রিপশন নেই।">Small, fast and private. No account, no subscription.</p>
+  <div class="grid">
+    <div class="card fade"><div class="ic">🗣️</div><h3 data-bn="ইংরেজি, বাংলা, বাংলিশ">English, Bangla, Banglish</h3><p data-bn="যেভাবে মনে আসে লিখুন। মিশ্র ও রোমান হরফের বাংলাও বুঝে পরিষ্কার ইংরেজি লেখে।">Type however you think. It understands mixed and romanized Bangla and writes clean English.</p></div>
+    <div class="card fade"><div class="ic">⌨️</div><h3 data-bn="পিসিতে একটাই শর্টকাট">One hotkey on PC</h3><p data-bn="যেকোনো টেক্সট বক্সে Ctrl + Alt + G চাপুন। লেখা সেখানেই ঠিক হয়ে যাবে। শর্টকাট বদলানো যায়।">Press Ctrl + Alt + G in any text box. Text is fixed in place. You can change the shortcut.</p></div>
+    <div class="card fade"><div class="ic">📱</div><h3 data-bn="Android এর সব অ্যাপে">Works in every Android app</h3><p data-bn="WhatsApp, Messenger, Gmail যেকোনো জায়গায় লেখা সিলেক্ট করে More থেকে Fix grammar চাপুন। অথবা অ্যাপে শেয়ার করুন।">Select text in WhatsApp, Messenger, Gmail… tap More, then Fix grammar. Or share text to the app.</p></div>
+    <div class="card fade"><div class="ic">⚡</div><h3 data-bn="১-ট্যাপ Fix কিবোর্ড">1-tap Fix keyboard</h3><p data-bn="Gboard এর গ্লোব কি চাপুন। Fix কিবোর্ড লেখা ঠিক করে নিজেই Gboard এ ফিরে যায়। Undo আর Retry আছে।">Tap Gboard's globe key. The Fix keyboard fixes your text box and switches back to Gboard by itself. Undo and Retry included.</p></div>
+    <div class="card fade"><div class="ic">🎨</div><h3 data-bn="লেখার স্টাইল">Writing styles</h3><p data-bn="Natural, Casual, Professional বা Short &amp; clear। মেসেজ অনুযায়ী টোন বেছে নিন।">Natural, Casual, Professional or Short &amp; clear. Pick the tone that fits the message.</p></div>
+    <div class="card fade"><div class="ic">🔒</div><h3 data-bn="প্রাইভেসি আগে">Private by design</h3><p data-bn="আপনার key ডিভাইসেই থাকে (Windows এ এনক্রিপ্টেড)। ঠিক করার সময়ই শুধু Groq এ লেখা যায়। ট্র্যাকিং নেই, আমাদের সার্ভারও নেই।">Your key stays on your device (encrypted on Windows). Text only goes to Groq when you fix it. No tracking, no server of ours.</p></div>
+    <div class="card fade"><div class="ic">🚀</div><h3 data-bn="স্টার্টআপে চালু, ট্রেতে থাকে">Runs at startup, lives in the tray</h3><p data-bn="Windows এর সাথে চালু হয়, ঘড়ির পাশে থাকে। ট্রে মেনু থেকে এক ক্লিকে Pause বা Uninstall।">Starts with Windows, sits by the clock. Pause or uninstall from the tray menu in one click.</p></div>
+    <div class="card fade"><div class="ic">🛡️</div><h3 data-bn="অটো ব্যাকআপ মডেল">Automatic fallback</h3><p data-bn="মূল মডেল ব্যস্ত বা লিমিটে আটকে গেলে অটোমেটিক ব্যাকআপ মডেলে চলে যায়।">If the main model is busy or rate limited, it switches to a backup model so you are never stuck.</p></div>
+    <div class="card fade"><div class="ic">🧩</div><h3 data-bn="ওপেন সোর্স, বদলে নিন">Open source, hack it</h3><p data-bn="MIT লাইসেন্স। প্রম্পট, মডেল, রং বা ভাষা বদলে নিজের ভার্সন বানান।">MIT license. Change the prompt, model, colors or language and build your own version.</p></div>
+  </div>
+</div></section>
+
+<section id="download"><div class="wrap">
+  <h2 data-bn="ডাউনলোড">Download</h2>
+  <p class="lead" data-bn="সরাসরি GitHub Releases থেকে। সবসময় লেটেস্ট ভার্সন।">Direct from GitHub Releases. Always the latest version.</p>
+  <div class="dl">
+    <div class="card fade"><div class="ic">🖥️</div><h3>Windows</h3>
+      <ul><li data-bn="Windows 10 / 11">Windows 10 / 11</li><li data-bn="একটাই .exe, ইনস্টলার নেই">Single .exe, no installer</li><li data-bn="SmartScreen দেখালে: More info → Run anyway (অ্যাপ সাইন করা নয়)">If SmartScreen warns: More info → Run anyway (app is unsigned)</li></ul>
+      <a class="btn p" href="https://github.com/iamtanzib/grammar-fixer/releases/latest/download/GrammarFixer.exe" data-bn=".exe ডাউনলোড">Download .exe</a></div>
+    <div class="card fade"><div class="ic">🤖</div><h3>Android</h3>
+      <ul><li data-bn="Android 6.0 বা নতুন">Android 6.0 or newer</li><li data-bn="জিজ্ঞেস করলে “Install unknown apps” এ অনুমতি দিন">Allow “Install unknown apps” when asked</li><li data-bn="ছোট, প্রায় ৫০ KB">Small, about 50 KB</li></ul>
+      <a class="btn p" href="https://github.com/iamtanzib/grammar-fixer/releases/latest/download/GrammarFixer.apk" data-bn=".apk ডাউনলোড">Download .apk</a></div>
+  </div>
+  <p class="small" style="text-align:center;margin-top:18px"><a class="u" href="https://github.com/iamtanzib/grammar-fixer/releases" target="_blank" rel="noopener" data-bn="সব ভার্সন ও রিলিজ নোট">All versions and release notes</a></p>
+</div></section>
+
+<section id="how"><div class="wrap">
+  <h2 data-bn="৩ ধাপে শুরু করুন">Get started in 3 steps</h2>
+  <p class="lead">&nbsp;</p>
+  <div class="steps">
+    <div class="step fade"><h3 data-bn="ফ্রি Groq key নিন">Get a free Groq key</h3><p data-bn='<a class="u" href="https://console.groq.com/keys" target="_blank" rel="noopener">console.groq.com/keys</a> এ লগইন করুন, Create API Key চাপুন, key কপি করুন (<code>gsk_</code> দিয়ে শুরু)।'>Sign in at <a class="u" href="https://console.groq.com/keys" target="_blank" rel="noopener">console.groq.com/keys</a>, click Create API Key and copy it (starts with <code>gsk_</code>).</p></div>
+    <div class="step fade"><h3 data-bn="ইনস্টল করে পেস্ট করুন">Install and paste</h3><p data-bn="অ্যাপ খুলুন, key পেস্ট করুন, Test চাপুন, তারপর Start (Windows) বা Save and test key (Android)।">Open the app, paste the key, press Test, then Start (Windows) or Save and test key (Android).</p></div>
+    <div class="step fade"><h3 data-bn="যেকোনো লেখা ঠিক করুন">Fix any text</h3><p data-bn="পিসি: Ctrl + Alt + G চাপুন। ফোন: লেখা সিলেক্ট করে More থেকে Fix grammar চাপুন।">PC: press Ctrl + Alt + G. Phone: select text, tap More, then Fix grammar.</p></div>
+  </div>
+</div></section>
+
+<section id="faq"><div class="wrap" style="max-width:760px">
+  <h2 data-bn="প্রশ্ন ও উত্তর">Questions</h2>
+  <p class="lead">&nbsp;</p>
+  <details><summary data-bn="সত্যিই ফ্রি?">Is it really free?</summary><p data-bn="অ্যাপ ফ্রি ও ওপেন সোর্স। Groq এর ফ্রি টিয়ার সাধারণ ব্যবহারের জন্য যথেষ্ট।">The app is free and open source. Groq offers a free tier for API keys, which is enough for normal use.</p></details>
+  <details><summary data-bn="আমার লেখা কোথায় যায়?">Where does my text go?</summary><p data-bn="শুধু Groq API তে, আর শুধু যখন আপনি fix চাপেন। প্রজেক্টের নিজস্ব সার্ভার বা ট্র্যাকিং নেই।">Only to the Groq API, and only when you press fix. The project has no server and no tracking.</p></details>
+  <details><summary data-bn="১-ট্যাপ Fix কিবোর্ড কীভাবে চালাব?">How do I use the 1-tap Fix keyboard?</summary><p data-bn="ফোনের কিবোর্ড সেটিংসে “Grammar Fixer (1-tap Fix)” চালু করুন। তারপর Gboard এর গ্লোব কি চাপলে এটা খুলবে, লেখা ঠিক করে Gboard এ ফিরে যাবে।">Enable “Grammar Fixer (1-tap Fix)” in your phone's keyboard settings. Then tap the globe key on Gboard to switch to it. It fixes the text box and returns to Gboard.</p></details>
+  <details><summary data-bn="Windows বলছে “protected your PC”">Windows says “protected your PC”</summary><p data-bn="exe টা এখনো কোড-সাইন করা না। More info চেপে Run anyway দিন। পুরো সোর্স GitHub এ দেখা ও বিল্ড করা যায়।">The exe is not code-signed yet. Click More info, then Run anyway. You can read and build the full source on GitHub.</p></details>
+  <details><summary data-bn="নিজের মতো বদলানো যায়?">Can I change it?</summary><p data-bn="হ্যাঁ। MIT লাইসেন্স। রিপো ফর্ক করে প্রম্পট বা মডেল বদলান, <code>build.ps1</code> দিয়ে বিল্ড করুন।">Yes. MIT license. Fork the repo, edit the prompt or model, and rebuild with <code>build.ps1</code>.</p></details>
+</div></section>
+
+<footer><div class="wrap">
+  <p><span data-bn="যত্ন করে বানানো। MIT লাইসেন্সে ওপেন সোর্স।">Made with care. Open source under MIT.</span> · <a href="https://github.com/iamtanzib/grammar-fixer" target="_blank" rel="noopener">GitHub</a></p>
+  <p style="margin-top:6px">Not affiliated with Groq.</p>
+</div></footer>
+
+<script>
+const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
+// keep the English markup so the toggle can switch back
+$$('[data-bn]').forEach(e=>e.dataset.en=e.innerHTML);
+let lang='en';
+try{lang=localStorage.getItem('gf-lang')||'en'}catch(e){}
+function setLang(l){
+  lang=l;document.documentElement.lang=l;
+  $$('[data-bn]').forEach(e=>e.innerHTML=e.dataset[l]);
+  $('#lang').textContent=l==='en'?'বাংলা':'English';
+  try{localStorage.setItem('gf-lang',l)}catch(e){}
+}
+$('#lang').onclick=()=>setLang(lang==='en'?'bn':'en');
+$('#theme').onclick=()=>{const r=document.documentElement;const dark=r.dataset.theme?r.dataset.theme==='dark':!matchMedia('(prefers-color-scheme: light)').matches;r.dataset.theme=dark?'light':'dark'};
+if(lang==='bn')setLang('bn');
+
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{threshold:.15});
+$$('.fade').forEach(e=>io.observe(e));
+
+const pairs=[
+ ["ami kal office e jaite parbo na, tai meeting reschedule kora jabe?","I can't come to the office tomorrow. Can we reschedule the meeting?"],
+ ["pls send me the report asap i need it for tomorow meting","Please send me the report as soon as possible. I need it for tomorrow's meeting."],
+ ["আমি আজকে অনেক busy, কাল call dibo","I'm very busy today. I'll call you tomorrow."]];
+const t=$('#typed'),st=$('#state'),sleep=ms=>new Promise(r=>setTimeout(r,ms));
+const still=matchMedia('(prefers-reduced-motion: reduce)').matches;
+async function demo(){
+  let i=0;
+  while(true){
+    const[a,b]=pairs[i++%pairs.length];
+    st.textContent='';st.className='';t.style.color='';t.textContent='';
+    for(const c of a){t.textContent+=c;if(!still)await sleep(28)}
+    await sleep(700);st.textContent='…';await sleep(700);
+    t.textContent=b;t.style.color='var(--good)';st.textContent='✓ fixed';st.className='ok';
+    await sleep(2800);
+  }
+}
+demo();
+</script>
+</body>
+</html>
