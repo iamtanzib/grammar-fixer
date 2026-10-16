@@ -1,0 +1,12 @@
+# Secrets: never commit signing keys
+*.keystore
+*.jks
+keystore-password.txt
+
+# Build output
+android/build/
+*.idsig
+GrammarFixer.exe
+GrammarFixer.apk
+GrammarFixer-Share.zip
+share/

@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingBottom="28dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_header"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingStart="24dp"
+            android:paddingEnd="24dp"
+            android:paddingTop="32dp"
+            android:paddingBottom="32dp">
+
+            <ImageView
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:src="@drawable/ic_logo" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Grammar Fixer"
+                    android:textColor="#FFFFFF"
+                    android:textSize="25sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:text="Clean, human English in one tap"
+                    android:textColor="#C7D2FE"
+                    android:textSize="14sp" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <!-- API key -->
+        <LinearLayout style="@style/Card">
+            <TextView style="@style/CardTitle" android:text="Groq API key" />
+            <TextView
+                android:id="@+id/getKey"
+                style="@style/Hint"
+                android:text="Get a free key at console.groq.com/keys"
+                android:textColor="@color/accent_dark" />
+            <EditText
+                android:id="@+id/key"
+                style="@style/Input"
+                android:hint="gsk_..."
+                android:inputType="textPassword"
+                android:singleLine="true" />
+            <Button
+                android:id="@+id/save"
+                style="@style/PrimaryButton"
+                android:text="Save and test key" />
+            <TextView
+                android:id="@+id/status"
+                style="@style/Hint"
+                android:layout_marginTop="10dp"
+                android:textSize="14sp" />
+        </LinearLayout>
+
+        <!-- Style -->
+        <LinearLayout style="@style/Card">
+            <TextView style="@style/CardTitle" android:text="Writing style" />
+            <Spinner
+                android:id="@+id/tone"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_marginTop="8dp" />
+            <TextView android:id="@+id/toneHint" style="@style/Hint" />
+            <Switch
+                android:id="@+id/translate"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="14dp"
+                android:text="Translate Bangla / Banglish to English"
+                android:textColor="@color/ink"
+                android:textSize="15sp" />
+        </LinearLayout>
+
+        <!-- Try it -->
+        <LinearLayout style="@style/Card">
+            <TextView style="@style/CardTitle" android:text="Try it here" />
+            <EditText
+                android:id="@+id/input"
+                style="@style/Input"
+                android:gravity="top|start"
+                android:hint="Type or paste your text. Banglish works too."
+                android:inputType="textMultiLine|textCapSentences"
+                android:minLines="4" />
+            <Button
+                android:id="@+id/fix"
+                style="@style/PrimaryButton"
+                android:text="Fix my text" />
+            <TextView
+                android:id="@+id/result"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:background="@drawable/bg_input"
+                android:padding="14dp"
+                android:textColor="@color/ink"
+                android:textIsSelectable="true"
+                android:textSize="16sp"
+                android:visibility="gone" />
+            <LinearLayout
+                android:id="@+id/resultActions"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:gravity="end"
+                android:visibility="gone">
+                <Button android:id="@+id/share" style="@style/SecondaryButton" android:text="Share" />
+                <Button
+                    android:id="@+id/copy"
+                    style="@style/SecondaryButton"
+                    android:layout_marginStart="10dp"
+                    android:text="Copy" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <!-- How to use -->
+        <LinearLayout style="@style/Card">
+            <TextView style="@style/CardTitle" android:text="Use it in any app" />
+            <TextView
+                style="@style/Hint"
+                android:layout_marginTop="10dp"
+                android:lineSpacingExtra="6dp"
+                android:text="1.  Type your message in WhatsApp, Messenger, Gmail or any app.\n2.  Long-press and select the text.\n3.  Tap the 3 dots (or More) and choose Fix grammar.\n4.  Your text gets replaced with the fixed version.\n\nYou can also share any text to Grammar Fixer."
+                android:textColor="@color/ink"
+                android:textSize="15sp" />
+        </LinearLayout>
+    </LinearLayout>
+</ScrollView>
